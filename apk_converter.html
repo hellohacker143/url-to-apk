@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL to APK Converter - Direct Download</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .help-text {
+            color: #999;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .status.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.info {
+            display: block;
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .features {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .features h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .features li {
+            padding: 5px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 URL to APK Converter</h1>
+            <p>Convert any website to Android APK instantly - No Android Studio needed!</p>
+        </div>
+
+        <form id="converterForm">
+            <div class="form-group">
+                <label for="websiteUrl">Website URL *</label>
+                <input 
+                    type="text" 
+                    id="websiteUrl" 
+                    name="url" 
+                    placeholder="https://btechfaqa.com"
+                    required
+                >
+                <div class="help-text">Enter the website URL you want to convert (e.g., https://btechfaqa.com)</div>
+            </div>
+
+            <div class="form-group">
+                <label for="appName">App Name *</label>
+                <input 
+                    type="text" 
+                    id="appName" 
+                    name="appName" 
+                    placeholder="e.g., BTech FAQA"
+                    required
+                >
+                <div class="help-text">Name that will appear on your phone</div>
+            </div>
+
+            <div class="form-group">
+                <label for="packageName">Package Name *</label>
+                <input 
+                    type="text" 
+                    id="packageName" 
+                    name="packageName" 
+                    placeholder="e.g., com.btechfaqa"
+                    value="com.example.app"
+                    required
+                >
+                <div class="help-text">Unique identifier (format: com.yourname.appname)</div>
+            </div>
+
+            <div class="form-group">
+                <label for="appVersion">App Version</label>
+                <input 
+                    type="text" 
+                    id="appVersion" 
+                    name="version" 
+                    placeholder="1.0.0"
+                    value="1.0.0"
+                >
+                <div class="help-text">Version number of your app</div>
+            </div>
+
+            <div class="form-group">
+                <label for="downloadMethod">How to Download?</label>
+                <select id="downloadMethod" name="method">
+                    <option value="instant">⚡ Instant Download Link (Fastest)</option>
+                    <option value="email">📧 Email Me the APK</option>
+                    <option value="cloud">☁️ Save to Google Drive</option>
+                </select>
+                <div class="help-text">Choose how you want to receive your APK file</div>
+            </div>
+
+            <div class="form-group" id="emailGroup" style="display: none;">
+                <label for="email">Email Address *</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="your.email@gmail.com"
+                >
+                <div class="help-text">APK will be sent to this email</div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-primary">Generate APK & Download</button>
+                <button type="reset" class="btn-secondary">Clear</button>
+            </div>
+
+            <div id="status" class="status"></div>
+        </form>
+
+        <div class="features">
+            <h3>✨ Features Included:</h3>
+            <ul>
+                <li>WebView with JavaScript enabled</li>
+                <li>Back button navigation</li>
+                <li>Progress bar loading indicator</li>
+                <li>Internet & storage permissions</li>
+                <li>Custom app branding</li>
+                <li>Works on Android 5.0+</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Handle download method selection
+        document.getElementById('downloadMethod').addEventListener('change', function() {
+            const emailGroup = document.getElementById('emailGroup');
+            if (this.value === 'email') {
+                emailGroup.style.display = 'block';
+                document.getElementById('email').required = true;
+            } else {
+                emailGroup.style.display = 'none';
+                document.getElementById('email').required = false;
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('converterForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const url = document.getElementById('websiteUrl').value;
+            const appName = document.getElementById('appName').value;
+            const packageName = document.getElementById('packageName').value;
+            const version = document.getElementById('appVersion').value;
+            const method = document.getElementById('downloadMethod').value;
+            const email = document.getElementById('email').value;
+            const statusEl = document.getElementById('status');
+
+            // Validate inputs
+            if (!url || !appName || !packageName) {
+                statusEl.textContent = '❌ Please fill in all required fields';
+                statusEl.className = 'status error';
+                return;
+            }
+
+            // Show processing status
+            statusEl.innerHTML = '<span class="spinner"></span> Processing... Please wait (this may take 30-60 seconds)';
+            statusEl.className = 'status info';
+
+            try {
+                // Call backend API (you need to implement this)
+                const formData = {
+                    url: url,
+                    appName: appName,
+                    packageName: packageName,
+                    version: version,
+                    method: method,
+                    email: email
+                };
+
+                const response = await fetch('https://api.example.com/convert', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (method === 'instant') {
+                        // Direct download
+                        window.location.href = data.downloadUrl;
+                        statusEl.innerHTML = '✅ APK Generated! Download should start automatically. <br> If not, <a href="' + data.downloadUrl + '">click here</a>';
+                        statusEl.className = 'status success';
+                    } else if (method === 'email') {
+                        statusEl.textContent = '✅ APK Generated! Sending to your email... Check your inbox in 2-5 minutes';
+                        statusEl.className = 'status success';
+                    } else if (method === 'cloud') {
+                        statusEl.innerHTML = '✅ APK Generated! <a href="' + data.cloudUrl + '">Click here to access in Google Drive</a>';
+                        statusEl.className = 'status success';
+                    }
+                } else {
+                    throw new Error('Conversion failed');
+                }
+            } catch (error) {
+                statusEl.innerHTML = `❌ Error: ${error.message}<br><small>Make sure the URL is correct and accessible</small>`;
+                statusEl.className = 'status error';
+            }
+        });
+    </script>
+</body>
+</html>
